@@ -20,3 +20,4 @@
 - Fixed incorrect control names
 - Small GUI scaling changes
 - Title label control name changed to "Chest Farmer"
+- Limited set-collection % to 2 decimal places
