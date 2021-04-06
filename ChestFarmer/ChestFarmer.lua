@@ -16,7 +16,6 @@ function ChestFarmer.onAddonLoaded(event, addonName)
 end
 
 function ChestFarmer.Initialize()
-	ChestFarmer.numLockpicks = GetNumLockpicksLeft("player")
 	ChestFarmer.savedVariables = ZO_SavedVars:NewAccountWide("ChestFarmerSavedData", 1, nil, ChestFarmer.Default)	
 	ChestFarmer.sfRead()
 	ChestFarmer.RestorePosition()
@@ -264,8 +263,8 @@ function ChestFarmer.showCollected()
 		collectedSets = collectedSets + GetNumItemSetCollectionSlotsUnlocked(v)
 		totalSets = totalSets + GetNumItemSetCollectionPieces(v)
 	end
-	setsPercentage = (collectedSets/totalSets)*100
-	ChestFarmerWindowSetsCount:SetText(collectedSets .. "/" .. totalSets .. "collected." .. " (" .. setsPercentage .. "%)")
+	setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+	ChestFarmerWindowSetsCount:SetText(collectedSets .. "/" .. totalSets .. " collected." .. " (" .. setsPercentage .. "%)")
 end
 
 function ChestFarmer.sfReadZone()
