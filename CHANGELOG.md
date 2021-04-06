@@ -11,3 +11,12 @@
 - Per-zone set collection-status tracking
 
 
+0.11
+
+"_It lives!_"
+- - - -
+**Bugfixes:**
+- Fixed nil error from incomplete XML control definition
+- Fixed incorrect control names
+- Small GUI scaling changes
+- Title label control name changed to "Chest Farmer"
