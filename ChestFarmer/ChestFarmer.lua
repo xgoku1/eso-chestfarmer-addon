@@ -257,7 +257,7 @@ function ChestFarmer.showCollected()
 	local zoneSets = {}
 	local collectedSets = 0
 	local totalSets = 0
-	local setsPercentage = 0
+	local setsPercentage = ""
 	zoneSets = ChestFarmer.findSets()
 	for k,v in pairs(zoneSets) do
 		collectedSets = collectedSets + GetNumItemSetCollectionSlotsUnlocked(v)
