@@ -1,0 +1,8 @@
+## Title: ChestFarmer
+## Author: xgoku1
+## Version: 1
+## Description: Counts number of treasure chests opened.
+## APIVersion: 100033 100034
+## SavedVariables: ChestFarmerSavedData
+ChestFarmer.lua
+ChestFarmer.xml
