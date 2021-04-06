@@ -1,5 +1,5 @@
 # eso-chestfarmer-addon
-Addon for Elder Scrolls Online; helps you farm overland chests for completionism and profiteering.
+Addon for Elder Scrolls Online; helps you farm overland chests for completion and profit.
 
 **Features**
 - - - -
