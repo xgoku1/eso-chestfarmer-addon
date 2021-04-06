@@ -40,6 +40,8 @@
 						mouseOver	="esoui/art/help/help_tabicon_feedback_over.dds"/>
 					<Dimensions x="35" y="35" />
 					<OnClicked>	ChestFarmer.resetButtonPressed() </OnClicked>
+					<OnMouseEnter>ChestFarmer.chestsReset_showTooltip(self)</OnMouseEnter>
+					<OnMouseExit>ChestFarmer.chestsReset_hideTooltip(self)</OnMouseExit>
 				</Button>
 				
 				<Label name="$(parent)SetsCount" width="30" height="10" font="ZoFontWinH3" inheritAlpha="true" color="FFFFCC" wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="LEFT" text="0/0 collected (0%)">
@@ -54,6 +56,8 @@
 						mouseOver = "EsoUI/Art/Collections/collections_tabIcon_itemSets_over.dds"/>
 					<Dimensions x="35" y="35" />
 					<OnClicked>	ChestFarmer.openCollections() </OnClicked>
+					<OnMouseEnter>ChestFarmer.setsCount_showTooltip(self)</OnMouseEnter>
+					<OnMouseExit>ChestFarmer.setsCount_hideTooltip(self)</OnMouseExit>
 				</Button>
 			</Controls>
 		</TopLevelControl>

@@ -17,6 +17,7 @@ end
 
 function ChestFarmer.Initialize()
 	ChestFarmer.savedVariables = ZO_SavedVars:NewAccountWide("ChestFarmerSavedData", 1, nil, ChestFarmer.Default)	
+	ChestFarmer.showCollected()
 	ChestFarmer.sfRead()
 	ChestFarmer.RestorePosition()
 end
@@ -53,6 +54,24 @@ end
 --function to open set collections scene
 function ChestFarmer.openCollections()
 	SCENE_MANAGER:Toggle("itemSetsBook")
+end
+
+function ChestFarmer.chestsReset_showTooltip(self)
+	InitializeTooltip(InformationTooltip, self, TOPRIGHT, 0, 5, BOTTOMRIGHT)
+	SetTooltipText(InformationTooltip, "Reset Count")
+end
+
+function ChestFarmer.chestsReset_hideTooltip(self)
+	ClearTooltip(InformationTooltip)
+end
+
+function ChestFarmer.setsCount_showTooltip(self)
+	InitializeTooltip(InformationTooltip, self, TOPRIGHT, 0, 5, BOTTOMRIGHT)
+	SetTooltipText(InformationTooltip, "Open Set Collections")
+end
+
+function ChestFarmer.setsCount_hideTooltip(self)
+	ClearTooltip(InformationTooltip)
 end
 
 --Data functions
