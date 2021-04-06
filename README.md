@@ -1,5 +1,5 @@
 # eso-chestfarmer-addon
-Addon for Elder Scrolls Online; helps you track farming overland chests for completion and profit.
+Addon for Elder Scrolls Online; helps you track farming overland chests for profit and completionism.
 
 **Features**
 - - - -
