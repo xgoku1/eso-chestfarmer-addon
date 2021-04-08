@@ -17,8 +17,6 @@ end
 
 function ChestFarmer.Initialize()
 	ChestFarmer.savedVariables = ZO_SavedVars:NewAccountWide("ChestFarmerSavedData", 1, nil, ChestFarmer.Default)	
-	ChestFarmer.showCollected()
-	ChestFarmer.sfRead()
 	ChestFarmer.RestorePosition()
 end
 
@@ -272,18 +270,32 @@ function ChestFarmer.findSets()
 	end
 end
 
+function ChestFarmer.fixCollectedDisplay()
+	setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+	ChestFarmerWindowSetsCount:SetText(collectedSets .. "/" .. totalSets .. " collected" .. " (" .. setsPercentage .. "%)")
+end
+
+function ChestFarmer.fixCollected()
+	if collectedSets == 0 then
+		for k,v in pairs(zoneSets) do
+			collectedSets = collectedSets + GetNumItemSetCollectionSlotsUnlocked(v)
+		end
+		ChestFarmer.fixCollectedDisplay()
+	end
+end
+
 function ChestFarmer.showCollected()
-	local zoneSets = {}
-	local collectedSets = 0
-	local totalSets = 0
-	local setsPercentage = ""
+	zoneSets = {}
+	collectedSets = 0
+	totalSets = 0
+	setsPercentage = ""
 	zoneSets = ChestFarmer.findSets()
 	for k,v in pairs(zoneSets) do
 		collectedSets = collectedSets + GetNumItemSetCollectionSlotsUnlocked(v)
 		totalSets = totalSets + GetNumItemSetCollectionPieces(v)
 	end
 	setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
-	ChestFarmerWindowSetsCount:SetText(collectedSets .. "/" .. totalSets .. " collected." .. " (" .. setsPercentage .. "%)")
+	ChestFarmerWindowSetsCount:SetText(collectedSets .. "/" .. totalSets .. " collected" .. " (" .. setsPercentage .. "%)")
 end
 
 function ChestFarmer.sfReadZone()
@@ -654,3 +666,4 @@ EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_ADD_ON_LOADED, ChestFarme
 EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_PLAYER_ACTIVATED, ChestFarmer.sfRead)
 EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_LOCKPICK_SUCCESS, ChestFarmer.countIncrement)
 EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_ITEM_SET_COLLECTION_UPDATED,	ChestFarmer.showCollected)
+EVENT_MANAGER:RegisterForUpdate("fixCollected", 5000, ChestFarmer.fixCollected)
