@@ -17,8 +17,6 @@ end
 
 function ChestFarmer.Initialize()
 	ChestFarmer.savedVariables = ZO_SavedVars:NewAccountWide("ChestFarmerSavedData", 1, nil, ChestFarmer.Default)	
-	ChestFarmer.showCollected()
-	ChestFarmer.sfRead()
 	ChestFarmer.RestorePosition()
 end
 
@@ -281,6 +279,10 @@ function ChestFarmer.showCollected()
 	for k,v in pairs(zoneSets) do
 		collectedSets = collectedSets + GetNumItemSetCollectionSlotsUnlocked(v)
 		totalSets = totalSets + GetNumItemSetCollectionPieces(v)
+	end
+	--debugging
+	if collectedSets == 0 then
+		d("GetNumItemSetCollectionSlotsUnlocked returning 0")
 	end
 	setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
 	ChestFarmerWindowSetsCount:SetText(collectedSets .. "/" .. totalSets .. " collected." .. " (" .. setsPercentage .. "%)")
