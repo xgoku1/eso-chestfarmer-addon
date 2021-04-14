@@ -1,12 +1,10 @@
 # eso-chestfarmer-addon
-Addon for Elder Scrolls Online; helps you track farming overland chests for profit and completionism.
+Addon for Elder Scrolls Online; helps track farming overland chests for profit and set completion.
 
 **Features**
 - - - -
 - Accountwide resettable count of treasure-chests opened per zone
 
-  _Counts lockpick success actions -> also be utilized for tracking safeboxes_
-- Live display of lockpicks remaining
+- Counts lockpickable treasure chests
 
-  _Updates on loadscreen & lockpicking_
 - Zone-wise set-completion tracking
