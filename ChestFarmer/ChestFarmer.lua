@@ -502,7 +502,7 @@ function ChestFarmer.sfRead()
 		ChestFarmer.numChests = 0
 	end
 	local actualZone = GetZoneNameById(actualZoneId)
-	ChestFarmerWindowZoneDisplay:SetText("This Zone: " .. actualZone)
+	ChestFarmerWindowZoneDisplay:SetText("Zone: " .. actualZone)
 	ChestFarmer.numLockpicks = GetNumLockpicksLeft("player")
 	ChestFarmerWindowLockpicksCount:SetText(ChestFarmer.numLockpicks .. " lockpicks remaining") 
 	ChestFarmerWindowChestsCount:SetText(ChestFarmer.numChests .. " chests opened")
@@ -643,16 +643,32 @@ function ChestFarmer.sfWrite(tempTc)
 	end
 end
 
+function ChestFarmer.interactionLog()
+-- Thanks to Shinni for this 'hack' to log last interacted, check out HarvestMap https://www.esoui.com/downloads/info57-HarvestMap.html
+	local oldInteract = FISHING_MANAGER.StartInteraction
+	FISHING_MANAGER.StartInteraction = function(...)
+		local action, name, _, isOwned = GetGameCameraInteractableActionInfo()
+		ChestFarmer.wasLastInteractableOwned = isOwned
+		--ChestFarmer.lastInteractableName = name
+		ChestFarmer.lastInteractableAction = action
+		return oldInteract(...)
+	end
+end
+
 function ChestFarmer.countIncrement()
 	if IsUnitInDungeon("player") == true then
 		local tempSubZoneId = GetZoneId(GetUnitZoneIndex("player"))
-		for k,v in pairs(ChestFarmer.delvePd) do
-			if tempSubZoneId == v then
-				ChestFarmer.numChests = ChestFarmer.numChests + 1
+			for k,v in pairs(ChestFarmer.delvePd) do
+				if tempSubZoneId == v then
+					if (not ChestFarmer.wasLastInteractableOwned) and ChestFarmer.lastInteractableAction == GetString(SI_GAMECAMERAACTIONTYPE12) then
+						ChestFarmer.numChests = ChestFarmer.numChests + 1
+					end
+				end
 			end
-		end
 	else
-		ChestFarmer.numChests = ChestFarmer.numChests + 1
+		if (not ChestFarmer.wasLastInteractableOwned) and ChestFarmer.lastInteractableAction == GetString(SI_GAMECAMERAACTIONTYPE12) then
+			ChestFarmer.numChests = ChestFarmer.numChests + 1
+		end
 	end
 	ChestFarmer.sfWrite(ChestFarmer.numChests)
 	ChestFarmer.numLockpicks = GetNumLockpicksLeft("player")
@@ -666,4 +682,5 @@ EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_ADD_ON_LOADED, ChestFarme
 EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_PLAYER_ACTIVATED, ChestFarmer.sfRead)
 EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_LOCKPICK_SUCCESS, ChestFarmer.countIncrement)
 EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_ITEM_SET_COLLECTION_UPDATED,	ChestFarmer.showCollected)
-EVENT_MANAGER:RegisterForUpdate("fixCollected", 5000, ChestFarmer.fixCollected)
+EVENT_MANAGER:RegisterForUpdate("fixCollected", 3000, ChestFarmer.fixCollected)
+EVENT_MANAGER:RegisterForUpdate("ChestFarmer-InteractionLog", 800, ChestFarmer.interactionLog)
