@@ -3,8 +3,8 @@ Addon for Elder Scrolls Online; helps track farming overland chests for profit a
 
 **Features**
 - - - -
-- Accountwide resettable count of treasure-chests opened per zone
+- Accountwide count of treasure-chests opened per zone
+     
+- Lockpicks remaining count
 
-- Counts lockpickable treasure chests
-
-- Zone-wise set-completion tracking
+- Zone-wise set-completion tracking %
