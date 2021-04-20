@@ -22,9 +22,16 @@ end
 
 function ChestFarmer.SetScene()
 	--Scenes
-	local fragment = ZO_HUDFadeSceneFragment:New(ChestFarmerWindow, nil, 0)
-	HUD_SCENE:AddFragment(fragment)
-	HUD_UI_SCENE:AddFragment(fragment)
+	fragment = ZO_HUDFadeSceneFragment:New(ChestFarmerWindow, nil, 0)
+	--first run edgecase
+	if ChestFarmer.savedVariables.guiHidden == nil then
+		ChestFarmer.savedVariables.guiHidden = false
+	end
+	
+	if ChestFarmer.savedVariables.guiHidden == false then
+		HUD_SCENE:AddFragment(fragment)
+		HUD_UI_SCENE:AddFragment(fragment)
+	end
 end
 
 --UI functions
@@ -72,8 +79,29 @@ function ChestFarmer.setsCount_hideTooltip(self)
 	ClearTooltip(InformationTooltip)
 end
 
-function ChestFarmer.toggleGui()
-	ChestFarmerWindow:ToggleHidden()
+function ChestFarmer.slashHandler(param)
+	--/chestfarmer
+	if param == "" then
+		ChestFarmer.savedVariables.guiHidden = not ChestFarmer.savedVariables.guiHidden
+		if ChestFarmer.savedVariables.guiHidden == false then
+			ChestFarmerWindow:SetHidden(ChestFarmer.savedVariables.guiHidden)
+			HUD_SCENE:AddFragment(fragment)
+			HUD_UI_SCENE:AddFragment(fragment)
+		else
+			ChestFarmerWindow:SetHidden(ChestFarmer.savedVariables.guiHidden)
+			HUD_SCENE:RemoveFragment(fragment)
+			HUD_UI_SCENE:RemoveFragment(fragment)
+		end
+	--/chestfarmer total
+	elseif param == "total" then
+		totalTC = 0
+		for k,v in pairs{ChestFarmer.savedVariables.starterTC, ChestFarmer.savedVariables.deshaanTC, ChestFarmer.savedVariables.eastmarchTC, ChestFarmer.savedVariables.shadowfenTC, ChestFarmer.savedVariables.stonefallsTC, ChestFarmer.savedVariables.theriftTC, ChestFarmer.savedVariables.alikrdesertTC, ChestFarmer.savedVariables.bangkoraiTC, ChestFarmer.savedVariables.glenumbraTC, ChestFarmer.savedVariables.rivenspireTC, ChestFarmer.savedVariables.stormhavenTC, ChestFarmer.savedVariables.auridonTC, ChestFarmer.savedVariables.grahtwoodTC, ChestFarmer.savedVariables.greenshadeTC, ChestFarmer.savedVariables.malabaltorTC, ChestFarmer.savedVariables.reapersmarchTC, ChestFarmer.savedVariables.summersetTC, ChestFarmer.savedVariables.wSkyrimTC, ChestFarmer.savedVariables.clockworkTC, ChestFarmer.savedVariables.coldharbourTC, ChestFarmer.savedVariables.craglornTC, ChestFarmer.savedVariables.goldcoastTC, ChestFarmer.savedVariables.hewsbaneTC, ChestFarmer.savedVariables.murkmireTC, ChestFarmer.savedVariables.nElsweyrTC, ChestFarmer.savedVariables.sElsweyrTC, ChestFarmer.savedVariables.thereachTC, ChestFarmer.savedVariables.vvardenfellTC, ChestFarmer.savedVariables.wrothgarTC, ChestFarmer.savedVariables.cyrodiilTC, ChestFarmer.savedVariables.impcityTC} do
+			if v ~= nil then
+				totalTC = totalTC + v
+			end
+		end
+		CHAT_ROUTER:AddSystemMessage("Total chests opened, in all zones: " .. totalTC)
+	end
 end
 
 --Data functions
@@ -83,7 +111,11 @@ function ChestFarmer.fixCollected()
 		for k,v in pairs(zoneSets) do
 			collectedSets = collectedSets + GetNumItemSetCollectionSlotsUnlocked(v)
 		end
-		setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+		if totalSets ~= 0 then
+			setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+		else
+			setsPercentage = 0
+		end
 		ChestFarmerWindowSetsCount:SetText(collectedSets .. "/" .. totalSets .. " collected" .. " (" .. setsPercentage .. "%)")
 	end
 end
@@ -111,7 +143,7 @@ function ChestFarmer.cfRead()
 	--Stonefalls 
 		[41] = {41, ChestFarmer.savedVariables.stonefallsTC, {49, 291, 31}}, 
 	--The Rift 
-		[103] = {103, ChestFarmer.savedVariables.thertTC, {135, 20, 294}},
+		[103] = {103, ChestFarmer.savedVariables.theriftTC, {135, 20, 294}},
 	--Daggerfall Covenant
 	--Alik'r Desert 
 		[104] = {104, ChestFarmer.savedVariables.alikrdesertTC, {284, 47, 283}},
@@ -234,8 +266,11 @@ function ChestFarmer.cfRead()
 		collectedSets = collectedSets + GetNumItemSetCollectionSlotsUnlocked(v)
 		totalSets = totalSets + GetNumItemSetCollectionPieces(v)
 	end
-	setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
-	
+	if totalSets ~= 0 then
+		setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+	else
+		setsPercentage = 0
+	end
 	--edgecase for addon initialization
 	if ChestFarmer.numChests == nil then
 		ChestFarmer.numChests = 0
@@ -426,4 +461,4 @@ EVENT_MANAGER:RegisterForUpdate("fixCollected", 3000, ChestFarmer.fixCollected)
 EVENT_MANAGER:RegisterForUpdate("ChestFarmer-InteractionLog", 800, ChestFarmer.interactionLog)
 
 --Slash commands
-SLASH_COMMANDS["/chestfarmer"] = ChestFarmer.toggleGui
+SLASH_COMMANDS["/chestfarmer"] = ChestFarmer.slashHandler
