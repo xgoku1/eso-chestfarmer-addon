@@ -63,11 +63,7 @@ end
 
 function ChestFarmer.chestsReset_showTooltip(self)
 	InitializeTooltip(InformationTooltip, self, TOPRIGHT, 0, 5, BOTTOMRIGHT)
-	SetTooltipText(InformationTooltip, "Reset Count")
-end
-
-function ChestFarmer.chestsReset_hideTooltip(self)
-	ClearTooltip(InformationTooltip)
+	SetTooltipText(InformationTooltip, "Reset chest count in this zone")
 end
 
 function ChestFarmer.setsCount_showTooltip(self)
@@ -75,7 +71,19 @@ function ChestFarmer.setsCount_showTooltip(self)
 	SetTooltipText(InformationTooltip, "Open Set Collections")
 end
 
-function ChestFarmer.setsCount_hideTooltip(self)
+function ChestFarmer.closeButtonPressed()
+	ChestFarmer.savedVariables.guiHidden = true
+	ChestFarmerWindow:SetHidden(ChestFarmer.savedVariables.guiHidden)
+	HUD_SCENE:RemoveFragment(fragment)
+	HUD_UI_SCENE:RemoveFragment(fragment)
+end
+
+function ChestFarmer.closeButton_showTooltip(self)
+	InitializeTooltip(InformationTooltip, self, TOPRIGHT, 0, 5, BOTTOMRIGHT)
+	SetTooltipText(InformationTooltip, "Close GUI and run in the background.\n(Use command '/chestfarmer' to toggle GUI)")
+end
+
+function ChestFarmer.hideTooltip(self)
 	ClearTooltip(InformationTooltip)
 end
 
@@ -277,7 +285,7 @@ function ChestFarmer.cfRead()
 	end
 	
 	local actualZone = GetZoneNameById(actualZoneId)
-	ChestFarmerWindowZoneDisplay:SetText("Zone: " .. actualZone)
+	ChestFarmerWindowZoneDisplay:SetText(actualZone)
 	ChestFarmer.numLockpicks = GetNumLockpicksLeft("player")
 	ChestFarmerWindowLockpicksCount:SetText(ChestFarmer.numLockpicks .. " lockpicks remaining") 
 	ChestFarmerWindowChestsCount:SetText(ChestFarmer.numChests .. " chests opened")
