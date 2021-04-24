@@ -1,4 +1,5 @@
 --Variables
+
 ChestFarmer = {}
 ChestFarmer.name = "ChestFarmer"
 ChestFarmer.versionNum = 1
@@ -21,8 +22,8 @@ function ChestFarmer.Initialize()
 end
 
 function ChestFarmer.SetScene()
-	--Scenes
 	fragment = ZO_HUDFadeSceneFragment:New(ChestFarmerWindow, nil, 0)
+	
 	--first run edgecase
 	if ChestFarmer.savedVariables.guiHidden == nil then
 		ChestFarmer.savedVariables.guiHidden = false
@@ -56,14 +57,13 @@ function ChestFarmer.resetButtonPressed()
 	ChestFarmerWindowChestsCount:SetText(ChestFarmer.numChests .. " chests opened") 
 end
 
---function to open set collections scene
 function ChestFarmer.openCollections()
 	SCENE_MANAGER:Toggle("itemSetsBook")
 end
 
 function ChestFarmer.chestsReset_showTooltip(self)
 	InitializeTooltip(InformationTooltip, self, TOPRIGHT, 0, 5, BOTTOMRIGHT)
-	SetTooltipText(InformationTooltip, "Reset chest count in this zone")
+	SetTooltipText(InformationTooltip, "Reset chest count in current zone")
 end
 
 function ChestFarmer.setsCount_showTooltip(self)
@@ -88,7 +88,6 @@ function ChestFarmer.hideTooltip(self)
 end
 
 function ChestFarmer.slashHandler(param)
-	--/chestfarmer
 	if param == "" then
 		ChestFarmer.savedVariables.guiHidden = not ChestFarmer.savedVariables.guiHidden
 		if ChestFarmer.savedVariables.guiHidden == false then
@@ -100,7 +99,6 @@ function ChestFarmer.slashHandler(param)
 			HUD_SCENE:RemoveFragment(fragment)
 			HUD_UI_SCENE:RemoveFragment(fragment)
 		end
-	--/chestfarmer total
 	elseif param == "total" then
 		totalTC = 0
 		for k,v in pairs{ChestFarmer.savedVariables.starterTC, ChestFarmer.savedVariables.deshaanTC, ChestFarmer.savedVariables.eastmarchTC, ChestFarmer.savedVariables.shadowfenTC, ChestFarmer.savedVariables.stonefallsTC, ChestFarmer.savedVariables.theriftTC, ChestFarmer.savedVariables.alikrdesertTC, ChestFarmer.savedVariables.bangkoraiTC, ChestFarmer.savedVariables.glenumbraTC, ChestFarmer.savedVariables.rivenspireTC, ChestFarmer.savedVariables.stormhavenTC, ChestFarmer.savedVariables.auridonTC, ChestFarmer.savedVariables.grahtwoodTC, ChestFarmer.savedVariables.greenshadeTC, ChestFarmer.savedVariables.malabaltorTC, ChestFarmer.savedVariables.reapersmarchTC, ChestFarmer.savedVariables.summersetTC, ChestFarmer.savedVariables.wSkyrimTC, ChestFarmer.savedVariables.clockworkTC, ChestFarmer.savedVariables.coldharbourTC, ChestFarmer.savedVariables.craglornTC, ChestFarmer.savedVariables.goldcoastTC, ChestFarmer.savedVariables.hewsbaneTC, ChestFarmer.savedVariables.murkmireTC, ChestFarmer.savedVariables.nElsweyrTC, ChestFarmer.savedVariables.sElsweyrTC, ChestFarmer.savedVariables.thereachTC, ChestFarmer.savedVariables.vvardenfellTC, ChestFarmer.savedVariables.wrothgarTC, ChestFarmer.savedVariables.cyrodiilTC, ChestFarmer.savedVariables.impcityTC} do
@@ -109,6 +107,8 @@ function ChestFarmer.slashHandler(param)
 			end
 		end
 		CHAT_ROUTER:AddSystemMessage("Total chests opened, in all zones: " .. totalTC)
+	elseif param == "reset" then
+		ChestFarmer.resetButtonPressed()
 	end
 end
 
@@ -120,7 +120,11 @@ function ChestFarmer.fixCollected()
 			collectedSets = collectedSets + GetNumItemSetCollectionSlotsUnlocked(v)
 		end
 		if totalSets ~= 0 then
-			setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+			if collectedSets == totalSets then
+				setsPercentage = 100
+			else
+				setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+			end
 		else
 			setsPercentage = 0
 		end
@@ -208,7 +212,7 @@ function ChestFarmer.cfRead()
 	--Cyrodiil	 
 		[181] = {181, ChestFarmer.savedVariables.cyrodiilTC, {101, 39, 85, 131, 422, 419, 52, 128, 133, 113, 480, 104, 482, 127, 25, 130, 83, 238, 126, 100, 417, 59, 237, 109, 234, 108, 76, 235, 89, 67, 132, 420, 418, 421, 97, 63, 50, 481, 129, 236, 111, 239, 125}},
 	--Imperial City 
-		[584] = {584, ChestFarmer.savedVariables.impcityTC, {179, 184, 246, 253, 181, 200, 180, 201, 199, 248, 247, 204, 205, 206}},
+		[584] = {584, ChestFarmer.savedVariables.impcityTC, {206, 179, 204, 246, 253, 181, 200, 180, 201, 199, 248, 247, 205}},
 	--Exceptions
 	--The Harborage 
 		[199] = {199, 0, {}}, 
@@ -220,21 +224,21 @@ function ChestFarmer.cfRead()
 		[279] = {279, 0, {}}, 
 	--Battlegrounds
 	--Arcane University 
-		[511] = {511, 0, {}}, 
+		[511] = {511, 0, {326, 327, 328, 329, 334}}, 
 	--Deeping Drome 
-		[512] = {512, 0, {}}, 
+		[512] = {512, 0, {326, 327, 328, 329, 334}}, 
 	--Mor Khazgur 
-		[513] = {513, 0, {}}, 
+		[513] = {513, 0, {326, 327, 328, 329, 334}}, 
 	--Istirus Outpost 
-		[514] = {514, 0, {}}, 
+		[514] = {514, 0, {326, 327, 328, 329, 334}}, 
 	--Istirus Outpost Arena 
-		[515] = {515, 0, {}}, 
+		[515] = {515, 0, {326, 327, 328, 329, 334}}, 
 	--Ald Carac 
-		[516] = {516, 0, {}}, 
+		[516] = {516, 0, {326, 327, 328, 329, 334}}, 
 	--Eld Angavar 1 
-		[517] = {517, 0, {}}, 
+		[517] = {517, 0, {326, 327, 328, 329, 334}}, 
 	--Eld Angavar 2 
-		[518] = {518, 0, {}}, 
+		[518] = {518, 0, {326, 327, 328, 329, 334}}, 
 	--Stirk 
 		[572] = {572, 0, {}}, 
 	--The Wailing Prison 
@@ -275,10 +279,15 @@ function ChestFarmer.cfRead()
 		totalSets = totalSets + GetNumItemSetCollectionPieces(v)
 	end
 	if totalSets ~= 0 then
-		setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+		if collectedSets == totalSets then
+			setsPercentage = 100
+		else
+			setsPercentage = string.format("%.2f",(collectedSets/totalSets)*100)
+		end
 	else
 		setsPercentage = 0
 	end
+	
 	--edgecase for addon initialization
 	if ChestFarmer.numChests == nil then
 		ChestFarmer.numChests = 0
@@ -432,7 +441,6 @@ function ChestFarmer.interactionLog()
 	FISHING_MANAGER.StartInteraction = function(...)
 		local action, name, _, isOwned = GetGameCameraInteractableActionInfo()
 		ChestFarmer.wasLastInteractableOwned = isOwned
-		--ChestFarmer.lastInteractableName = name
 		ChestFarmer.lastInteractableAction = action
 		return oldInteract(...)
 	end
@@ -442,10 +450,8 @@ function ChestFarmer.countIncrement()
 	if IsUnitInDungeon("player") == true then
 		local tempSubZoneId = GetZoneId(GetUnitZoneIndex("player"))
 		if ChestFarmer.delvePd[tempSubZoneId] == true then
-			if tempSubZoneId == v then
-				if (not ChestFarmer.wasLastInteractableOwned) and ChestFarmer.lastInteractableAction == GetString(SI_GAMECAMERAACTIONTYPE12) then
-						ChestFarmer.numChests = ChestFarmer.numChests + 1
-				end
+			if (not ChestFarmer.wasLastInteractableOwned) and ChestFarmer.lastInteractableAction == GetString(SI_GAMECAMERAACTIONTYPE12) then
+					ChestFarmer.numChests = ChestFarmer.numChests + 1
 			end
 		end
 	else
@@ -470,3 +476,6 @@ EVENT_MANAGER:RegisterForUpdate("ChestFarmer-InteractionLog", 800, ChestFarmer.i
 
 --Slash commands
 SLASH_COMMANDS["/chestfarmer"] = ChestFarmer.slashHandler
+--"/chestfarmer" toggles GUI
+--"/chestfarmer total" returns total chests opened across all zones
+--"/chestfarmer reset" resets chests opened count for current zone
