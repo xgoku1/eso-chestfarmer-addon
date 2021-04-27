@@ -1,8 +1,8 @@
 ## Title: |cffd700ChestFarmer|r
-## Description: Counts chests lockpicked in each zone. Optional GUI that also displays lockpicks remaining and overland set collection %.
+## Description: Use command '/chestfarmer' to toggle GUI. Counts chests lockpicked in each zone. Optional GUI that also displays lockpicks remaining and overland set collection %.
 ## Author: @xgoku1
 ## Version: 1
-## APIVersion: 100033 100034
+## APIVersion: 100034 100035
 ## SavedVariables: ChestFarmerSavedData
 
 # This Add-on is not created by, affiliated with, or sponsored by, ZeniMax Media Inc.
