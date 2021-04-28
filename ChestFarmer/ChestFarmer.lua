@@ -17,7 +17,7 @@ function ChestFarmer.onAddonLoaded(event, addonName)
 end
 
 function ChestFarmer.Initialize()
-	ChestFarmer.savedVariables = ZO_SavedVars:NewAccountWide("ChestFarmerSavedData", 1, nil, ChestFarmer.Default)	
+	ChestFarmer.savedVariables = ZO_SavedVars:NewAccountWide("ChestFarmerSavedData", 1, nil, ChestFarmer.Default, GetWorldName())	
 	ChestFarmer.RestorePosition()
 end
 
