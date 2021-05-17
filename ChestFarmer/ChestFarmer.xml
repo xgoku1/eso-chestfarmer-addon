@@ -21,7 +21,7 @@
 				</Label>
 				
 				<Button name="$(parent)Collections" text="Open Set Collections">
-					<Anchor point="CENTER" relativeTo="$(parent)Title" relativePoint="CENTER" offsetY="30" offsetX="0"/>
+					<Anchor point="CENTER" relativeTo="$(parent)Title" relativePoint="CENTER" offsetY="30" offsetX="-20"/>
 					<Textures 
 						normal = "EsoUI/Art/Collections/collections_tabIcon_itemSets_up.dds"
 						pressed = "EsoUI/Art/Collections/collections_tabIcon_itemSets_down.dds"
@@ -33,7 +33,7 @@
 				</Button>
 				
 				<Button name="$(parent)CloseButton">
-					<Anchor point="CENTER" relativeTo="$(parent)Collections" relativePoint="CENTER" offsetY="1" offsetX="-50"/>
+					<Anchor point="CENTER" relativeTo="$(parent)Collections" relativePoint="CENTER" offsetY="1" offsetX="-25"/>
 					<Textures
 					normal="esoui/art/tutorial/tabicon_ignored_up.dds"
 					pressed="esoui/art/contacts/tabicon_ignored_down.dds"
@@ -45,7 +45,7 @@
 				</Button>
 				
 				<Button name="$(parent)ChestsReset">
-					<Anchor point="CENTER" relativeTo="$(parent)Collections" relativePoint="CENTER" offsetY="1" offsetX="50"/>
+					<Anchor point="CENTER" relativeTo="$(parent)Collections" relativePoint="CENTER" offsetY="1" offsetX="25"/>
 					<Textures 
 						normal		="esoui/art/help/help_tabicon_feedback_up.dds"
 						pressed		="esoui/art/help/help_tabicon_feedback_down.dds "
@@ -53,6 +53,18 @@
 					<Dimensions x="35" y="35" />
 					<OnClicked>	ChestFarmer.resetButtonPressed() </OnClicked>
 					<OnMouseEnter>ChestFarmer.chestsReset_showTooltip(self)</OnMouseEnter>
+					<OnMouseExit>ChestFarmer.hideTooltip(self)</OnMouseExit>
+				</Button>
+				
+				<Button name="$(parent)ShowStats">
+					<Anchor point="CENTER" relativeTo="$(parent)Collections" relativePoint="CENTER" offsetY="1" offsetX="50"/>
+					<Textures 
+						normal		="esoui/art/help/help_tabicon_feedback_up.dds"
+						pressed		="esoui/art/help/help_tabicon_feedback_down.dds "
+						mouseOver	="esoui/art/help/help_tabicon_feedback_over.dds"/>
+					<Dimensions x="35" y="35" />
+					<OnClicked>	ChestFarmer.statsButtonPressed() </OnClicked>
+					<OnMouseEnter>ChestFarmer.showStats_showTooltip(self)</OnMouseEnter>
 					<OnMouseExit>ChestFarmer.hideTooltip(self)</OnMouseExit>
 				</Button>
 				

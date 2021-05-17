@@ -5,6 +5,53 @@ ChestFarmer.name = "ChestFarmer"
 ChestFarmer.versionNum = 1
 ChestFarmer.numChests = 0
 ChestFarmer.numLockpicks = 0
+--Defaults
+ChestFarmer.Default = {
+guiHidden = false,
+top = 768,
+left = 1650,
+starterTC = 0,
+deshaanTC = 0, 
+eastmarchTC = 0, 
+shadowfenTC = 0, 
+stonefallsTC = 0, 
+theriftTC = 0, 
+alikrdesertTC = 0, 
+bangkoraiTC = 0, 
+glenumbraTC = 0, 
+rivenspireTC = 0, 
+stormhavenTC = 0, 
+auridonTC = 0, 
+grahtwoodTC = 0, 
+greenshadeTC = 0, 
+malabaltorTC = 0, 
+reapersmarchTC = 0, 
+summersetTC = 0, 
+wSkyrimTC = 0, 
+clockworkTC = 0, 
+coldharbourTC = 0, 
+craglornTC = 0, 
+goldcoastTC = 0, 
+hewsbaneTC = 0, 
+murkmireTC = 0, 
+nElsweyrTC = 0, 
+sElsweyrTC = 0, 
+thereachTC = 0, 
+vvardenfellTC = 0, 
+wrothgarTC = 0, 
+blackwoodTC = 0, 
+cyrodiilTC = 0, 
+impcityTC = 0,
+}
+
+
+--localized search terms for scanning chest difficulty
+ChestFarmer.enDifficulty = {"master", "advanced", "intermediate", "simple"}
+ChestFarmer.deDifficulty = {"master", "advanced", "intermediate", "simple"}
+ChestFarmer.frDifficulty = {"master", "advanced", "intermediate", "simple"}
+ChestFarmer.jpDifficulty = {"master", "advanced", "intermediate", "simple"}
+ChestFarmer.ruDifficulty = {"master", "advanced", "intermediate", "simple"}
+
 ChestFarmer.delvePd = {[124] = true, [134] = true, [137] = true, [138] = true, [142] = true, [162] = true, [169] = true, [216] = true, [270] = true, [271] = true, [272] = true, [273] = true, [274] = true, [275] = true, [284] = true, [287] = true, [288] = true, [289] = true, [290] = true, [291] = true, [296] = true, [306] = true, [308] = true, [309] = true, [310] = true, [311] = true, [312] = true, [313] = true, [314] = true, [315] = true, [316] = true, [317] = true, [318] = true, [319] = true, [320] = true, [321] = true, [322] = true, [323] = true, [324] = true, [325] = true, [326] = true, [327] = true, [328] = true, [329] = true, [330] = true, [331] = true, [332] = true, [333] = true, [334] = true, [335] = true, [336] = true, [337] = true, [338] = true, [339] = true, [341] = true, [359] = true, [360] = true, [361] = true, [362] = true, [363] = true, [364] = true, [396] = true, [397] = true, [398] = true, [399] = true, [400] = true, [401] = true, [405] = true, [406] = true, [407] = true, [408] = true, [409] = true, [410] = true, [413] = true, [417] = true, [418] = true, [419] = true, [420] = true, [421] = true, [422] = true, [442] = true, [444] = true, [447] = true, [462] = true, [463] = true, [464] = true, [465] = true, [466] = true, [467] = true, [468] = true, [469] = true, [470] = true, [471] = true, [472] = true, [473] = true, [475] = true, [477] = true, [478] = true, [480] = true, [481] = true, [482] = true, [484] = true, [485] = true, [486] = true, [487] = true, [493] = true, [494] = true, [495] = true, [496] = true, [497] = true, [498] = true, [499] = true, [500] = true, [501] = true, [502] = true, [503] = true, [504] = true, [505] = true, [506] = true, [507] = true, [531] = true, [532] = true, [557] = true, [575] = true, [576] = true, [577] = true, [578] = true, [579] = true, [580] = true, [676] = true, [689] = true, [691] = true, [692] = true, [693] = true, [694] = true, [697] = true, [705] = true, [706] = true, [817] = true, [824] = true, [825] = true, [889] = true, [890] = true, [891] = true, [892] = true, [893] = true, [894] = true, [895] = true, [896] = true, [897] = true, [898] = true, [899] = true, [900] = true, [901] = true, [902] = true, [903] = true, [904] = true, [905] = true, [906] = true, [918] = true, [919] = true, [921] = true, [922] = true, [923] = true, [924] = true, [925] = true, [961] = true, [985] = true, [986] = true, [1014] = true, [1015] = true, [1016] = true, [1017] = true, [1018] = true, [1019] = true, [1020] = true, [1021] = true, [1066] = true, [1073] = true, [1089] = true, [1090] = true, [1091] = true, [1092] = true, [1094] = true, [1095] = true, [1096] = true, [1119] = true, [1134] = true, [1135] = true, [1165] = true, [1166] = true, [1167] = true, [1168] = true, [1169] = true, [1170] = true, [1186] = true, [1187] = true, [1209] = true, [1210] = true, [1253] = true, [1257] = true, [1256] = true, [1254] = true, [1255] = true, [1258] = true, [1259] = true, [1260] = true, [1272] = true}
 
 --Init functions
@@ -23,11 +70,6 @@ end
 
 function ChestFarmer.SetScene()
 	fragment = ZO_HUDFadeSceneFragment:New(ChestFarmerWindow, nil, 0)
-	
-	--first run edgecase
-	if ChestFarmer.savedVariables.guiHidden == nil then
-		ChestFarmer.savedVariables.guiHidden = false
-	end
 	
 	if ChestFarmer.savedVariables.guiHidden == false then
 		HUD_SCENE:AddFragment(fragment)
@@ -57,8 +99,33 @@ function ChestFarmer.resetButtonPressed()
 	ChestFarmerWindowChestsCount:SetText(ChestFarmer.numChests .. " chests opened") 
 end
 
+function ChestFarmer.statsButtonPressed()
+	totalTC = 0
+	sampleSize = ChestFarmer.savedVariables.masterCount + ChestFarmer.savedVariables.advancedCount + ChestFarmer.savedVariables.intermediateCount + ChestFarmer.savedVariables.simpleCount
+		for k,v in pairs{ChestFarmer.savedVariables.starterTC, ChestFarmer.savedVariables.deshaanTC, ChestFarmer.savedVariables.eastmarchTC, ChestFarmer.savedVariables.shadowfenTC, ChestFarmer.savedVariables.stonefallsTC, ChestFarmer.savedVariables.theriftTC, ChestFarmer.savedVariables.alikrdesertTC, ChestFarmer.savedVariables.bangkoraiTC, ChestFarmer.savedVariables.glenumbraTC, ChestFarmer.savedVariables.rivenspireTC, ChestFarmer.savedVariables.stormhavenTC, ChestFarmer.savedVariables.auridonTC, ChestFarmer.savedVariables.grahtwoodTC, ChestFarmer.savedVariables.greenshadeTC, ChestFarmer.savedVariables.malabaltorTC, ChestFarmer.savedVariables.reapersmarchTC, ChestFarmer.savedVariables.summersetTC, ChestFarmer.savedVariables.wSkyrimTC, ChestFarmer.savedVariables.clockworkTC, ChestFarmer.savedVariables.coldharbourTC, ChestFarmer.savedVariables.craglornTC, ChestFarmer.savedVariables.goldcoastTC, ChestFarmer.savedVariables.hewsbaneTC, ChestFarmer.savedVariables.murkmireTC, ChestFarmer.savedVariables.nElsweyrTC, ChestFarmer.savedVariables.sElsweyrTC, ChestFarmer.savedVariables.thereachTC, ChestFarmer.savedVariables.vvardenfellTC, ChestFarmer.savedVariables.wrothgarTC, ChestFarmer.savedVariables.blackwoodTC, ChestFarmer.savedVariables.cyrodiilTC, ChestFarmer.savedVariables.impcityTC} do
+			if v ~= nil then
+				totalTC = totalTC + v
+			end
+		end
+		CHAT_ROUTER:AddSystemMessage("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+		CHAT_ROUTER:AddSystemMessage("          CHESTFARMER STATS          ")
+		CHAT_ROUTER:AddSystemMessage("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+		CHAT_ROUTER:AddSystemMessage("Total chests opened, in all zones: " .. totalTC)
+		CHAT_ROUTER:AddSystemMessage("Average chest difficulty: (Sample size " .. sampleSize .. ")")
+		CHAT_ROUTER:AddSystemMessage("Master: " .. string.format("%.2f",(ChestFarmer.savedVariables.masterCount/sampleSize)*100) .. "%")
+		CHAT_ROUTER:AddSystemMessage("Advanced: " .. string.format("%.2f",(ChestFarmer.savedVariables.advancedCount/sampleSize)*100) .. "%")
+		CHAT_ROUTER:AddSystemMessage("Intermediate: " .. string.format("%.2f",(ChestFarmer.savedVariables.intermediateCount/sampleSize)*100) .. "%")
+		CHAT_ROUTER:AddSystemMessage("Simple: " .. string.format("%.2f",(ChestFarmer.savedVariables.simpleCount/sampleSize)*100) .. "%")
+		CHAT_ROUTER:AddSystemMessage("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+end
+
 function ChestFarmer.openCollections()
 	SCENE_MANAGER:Toggle("itemSetsBook")
+end
+
+function ChestFarmer.showStats_showTooltip(self)
+	InitializeTooltip(InformationTooltip, self, TOPRIGHT, 0, 5, BOTTOMRIGHT)
+	SetTooltipText(InformationTooltip, "Print historical stats to chat")
 end
 
 function ChestFarmer.chestsReset_showTooltip(self)
@@ -88,6 +155,8 @@ function ChestFarmer.hideTooltip(self)
 end
 
 function ChestFarmer.slashHandler(param)
+	param = param:lower()
+	--toggle GUI
 	if param == "" then
 		ChestFarmer.savedVariables.guiHidden = not ChestFarmer.savedVariables.guiHidden
 		if ChestFarmer.savedVariables.guiHidden == false then
@@ -99,14 +168,10 @@ function ChestFarmer.slashHandler(param)
 			HUD_SCENE:RemoveFragment(fragment)
 			HUD_UI_SCENE:RemoveFragment(fragment)
 		end
-	elseif param == "total" then
-		totalTC = 0
-		for k,v in pairs{ChestFarmer.savedVariables.starterTC, ChestFarmer.savedVariables.deshaanTC, ChestFarmer.savedVariables.eastmarchTC, ChestFarmer.savedVariables.shadowfenTC, ChestFarmer.savedVariables.stonefallsTC, ChestFarmer.savedVariables.theriftTC, ChestFarmer.savedVariables.alikrdesertTC, ChestFarmer.savedVariables.bangkoraiTC, ChestFarmer.savedVariables.glenumbraTC, ChestFarmer.savedVariables.rivenspireTC, ChestFarmer.savedVariables.stormhavenTC, ChestFarmer.savedVariables.auridonTC, ChestFarmer.savedVariables.grahtwoodTC, ChestFarmer.savedVariables.greenshadeTC, ChestFarmer.savedVariables.malabaltorTC, ChestFarmer.savedVariables.reapersmarchTC, ChestFarmer.savedVariables.summersetTC, ChestFarmer.savedVariables.wSkyrimTC, ChestFarmer.savedVariables.clockworkTC, ChestFarmer.savedVariables.coldharbourTC, ChestFarmer.savedVariables.craglornTC, ChestFarmer.savedVariables.goldcoastTC, ChestFarmer.savedVariables.hewsbaneTC, ChestFarmer.savedVariables.murkmireTC, ChestFarmer.savedVariables.nElsweyrTC, ChestFarmer.savedVariables.sElsweyrTC, ChestFarmer.savedVariables.thereachTC, ChestFarmer.savedVariables.vvardenfellTC, ChestFarmer.savedVariables.wrothgarTC, ChestFarmer.savedVariables.blackwoodTC, ChestFarmer.savedVariables.cyrodiilTC, ChestFarmer.savedVariables.impcityTC} do
-			if v ~= nil then
-				totalTC = totalTC + v
-			end
-		end
-		CHAT_ROUTER:AddSystemMessage("Total chests opened, in all zones: " .. totalTC)
+	--stats
+	elseif param == "stats" then
+		ChestFarmer.statsButtonPressed()
+	--reset
 	elseif param == "reset" then
 		ChestFarmer.resetButtonPressed()
 	end
@@ -133,6 +198,20 @@ function ChestFarmer.fixCollected()
 end
 
 function ChestFarmer.cfRead()
+	--load correct searchterm
+	ChestFarmer.gameLang = GetCVar("Language.2")
+	if ChestFarmer.gameLang == "en" then
+		ChestFarmer.searchTerms = ChestFarmer.enDifficulty
+	elseif ChestFarmer.gameLang == "de" then
+		ChestFarmer.searchTerms = ChestFarmer.deDifficulty
+	elseif ChestFarmer.gameLang == "fr" then
+		ChestFarmer.searchTerms = ChestFarmer.frDifficulty
+	elseif ChestFarmer.gameLang == "jp" then
+		ChestFarmer.searchTerms = ChestFarmer.jpDifficulty
+	elseif ChestFarmer.gameLang == "ru" then
+		ChestFarmer.searchTerms = ChestFarmer.ruDifficulty	
+	end
+	
 	ChestFarmer.cfReadZone = {
 	--Starter Zones
 	--Bal Foyen 
@@ -447,6 +526,7 @@ function ChestFarmer.interactionLog()
 		local action, name, _, isOwned = GetGameCameraInteractableActionInfo()
 		ChestFarmer.wasLastInteractableOwned = isOwned
 		ChestFarmer.lastInteractableAction = action
+		ChestFarmer.lastInteractableName = name
 		return oldInteract(...)
 	end
 end
@@ -456,12 +536,31 @@ function ChestFarmer.countIncrement()
 		local tempSubZoneId = GetZoneId(GetUnitZoneIndex("player"))
 		if ChestFarmer.delvePd[tempSubZoneId] == true then
 			if (not ChestFarmer.wasLastInteractableOwned) and ChestFarmer.lastInteractableAction == GetString(SI_GAMECAMERAACTIONTYPE12) then
-					ChestFarmer.numChests = ChestFarmer.numChests + 1
+				ChestFarmer.numChests = ChestFarmer.numChests + 1
+					if(zo_plainstrfind(ChestFarmer.lastInteractableName:lower(), ChestFarmer.searchTerms[1]) then
+						ChestFarmer.savedVariables.masterCount = ChestFarmer.savedVariables.masterCount + 1
+					elseif(zo_plainstrfind(ChestFarmer.lastInteractableName:lower(), ChestFarmer.searchTerms[2]) then
+						ChestFarmer.savedVariables.advancedCount = ChestFarmer.savedVariables.advancedCount + 1
+					elseif(zo_plainstrfind(ChestFarmer.lastInteractableName:lower(), ChestFarmer.searchTerms[3]) then
+						ChestFarmer.savedVariables.intermediateCount = ChestFarmer.savedVariables.intermediateCount + 1
+					elseif(zo_plainstrfind(ChestFarmer.lastInteractableName:lower(), ChestFarmer.searchTerms[4]) then
+						ChestFarmer.savedVariables.simpleCount = ChestFarmer.savedVariables.simpleCount + 1
+					end
 			end
 		end
 	else
 		if (not ChestFarmer.wasLastInteractableOwned) and ChestFarmer.lastInteractableAction == GetString(SI_GAMECAMERAACTIONTYPE12) then
 			ChestFarmer.numChests = ChestFarmer.numChests + 1
+				if(zo_plainstrfind(ChestFarmer.lastInteractableName:lower(), ChestFarmer.searchTerms[1]) then
+					ChestFarmer.savedVariables.masterCount = ChestFarmer.savedVariables.masterCount + 1
+				elseif(zo_plainstrfind(ChestFarmer.lastInteractableName:lower(), ChestFarmer.searchTerms[2]) then
+					ChestFarmer.savedVariables.advancedCount = ChestFarmer.savedVariables.advancedCount + 1
+				elseif(zo_plainstrfind(ChestFarmer.lastInteractableName:lower(), ChestFarmer.searchTerms[3]) then
+					ChestFarmer.savedVariables.intermediateCount = ChestFarmer.savedVariables.intermediateCount + 1
+				elseif(zo_plainstrfind(ChestFarmer.lastInteractableName:lower(), ChestFarmer.searchTerms[4]) then
+					ChestFarmer.savedVariables.simpleCount = ChestFarmer.savedVariables.simpleCount + 1
+				end
+			end
 		end
 	end
 	ChestFarmer.cfWrite(ChestFarmer.numChests)
@@ -481,6 +580,7 @@ EVENT_MANAGER:RegisterForUpdate("ChestFarmer-InteractionLog", 800, ChestFarmer.i
 
 --Slash commands
 SLASH_COMMANDS["/chestfarmer"] = ChestFarmer.slashHandler
+SLASH_COMMANDS["/cf"] = ChestFarmer.slashHandler
 --"/chestfarmer" toggles GUI
 --"/chestfarmer total" returns total chests opened across all zones
 --"/chestfarmer reset" resets chests opened count for current zone
