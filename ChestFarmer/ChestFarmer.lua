@@ -1,3 +1,28 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------
+-- Update instructions
+-------------------------------------------------------------------------------------------------------------------------------------------------
+-- To update this AddOn manually (when a new zone is released) do the following:
+-- 1. Add variable <zone_name>TC = 0 to ChestFarmer.Default for defaulting savedVariables
+-- 2. Check LibSets to get ParentZoneId and overland setIds for the zone's sets. 
+-- 2.1 Check if any delve, public dungeon or house has a different parentZoneId
+-- 2.2 Add an entry to the table in ChestFarmer.cfReadZone() in the following format:
+----- --"Zone-Name" as comment
+----- [parentZoneId] = {actual_parentZoneId, ChestFarmer.savedVariables.<zone_name>TC, {setId1, setId2, setId3 etc.}}
+--------------------------------------------------------------------------------------- ^ these setIds are the ones for the zone's overland sets.
+----- if step 2.1 is true, then add the house/quest area as a separate [parentZoneId] with the actual values
+----- To understand this, check Linchal Grand Manor for example, although it is situated in the Gold Coast, it has its own parentZoneId.
+----- For our purposes we need to load the parentZoneId for Gold Coast and the associated TC from savedVariables and the correct setIds.
+-- 3. Add an entry to ChestFarmer.cfWrite() in the following format:
+-- 	  elseif tempParentZoneId == (parentZoneId for the zone you got from libSets) then
+--    ChestFarmer.savedVariables.<zone_name>TC = tempTc
+--    No need to include houses here (if their parentZoneId is different) as this function is only called after a lockpick success event.
+-- 4. Add the zoneId of every delve and public dungeon in the zone (zoneId, not parentZoneId!)
+--    to the table in ChestFarmer.delvePd in the following format; [<zoneId>] = true, ...
+
+-----------------------
+-- ChestFarmer
+-----------------------
+
 --Variables
 
 ChestFarmer = {}
