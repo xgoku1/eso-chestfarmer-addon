@@ -540,7 +540,6 @@ function ChestFarmer.interactionLog()
 		local action, name, _, isOwned = GetGameCameraInteractableActionInfo()
 		ChestFarmer.wasLastInteractableOwned = isOwned
 		ChestFarmer.lastInteractableAction = action
-		ChestFarmer.lastInteractableName = name
 		return oldInteract(...)
 	end
 end
@@ -564,7 +563,6 @@ function ChestFarmer.countIncrement()
 		end
 	else
 		if (not ChestFarmer.wasLastInteractableOwned) and ChestFarmer.lastInteractableAction == GetString(SI_GAMECAMERAACTIONTYPE12) then
-			d("last interactable name" .. ChestFarmer.lastInteractableName)
 			ChestFarmer.numChests = ChestFarmer.numChests + 1
 				if ChestFarmer.lockQuality == 4 then
 					ChestFarmer.savedVariables.masterCount = ChestFarmer.savedVariables.masterCount + 1
