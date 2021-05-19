@@ -33,7 +33,7 @@ ChestFarmer.lua
 ChestFarmer.xml
 
 ; Changelog:
-; v1.13
+; v1.13 (19.05.2021)
 ; * Added support for tracking chest quality. Now use slash command 
 ;   "/cf stats" or press the GUI button to see total chests opened,
 ;   quality % across Master, Advanced, Intermediate, and Simple.
