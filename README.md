@@ -4,6 +4,8 @@ Addon for Elder Scrolls Online; helps track farming overland chests for profit a
 **Features**
 - - - -
 - Accountwide count of treasure-chests opened per zone
+
+- Chest quality tracking
      
 - Lockpicks remaining count
 
