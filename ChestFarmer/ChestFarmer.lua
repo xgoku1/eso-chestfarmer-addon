@@ -33,7 +33,7 @@ ChestFarmer.numLockpicks = 0
 --Defaults
 ChestFarmer.Default = {
 guiHidden = false,
-top = 768,
+top = 614,
 left = 1650,
 starterTC = 0,
 deshaanTC = 0, 
@@ -138,7 +138,6 @@ function ChestFarmer.statsButtonPressed()
 			CHAT_ROUTER:AddSystemMessage("Advanced: " .. string.format("%.2f",(ChestFarmer.savedVariables.advancedCount/sampleSize)*100) .. "%")
 			CHAT_ROUTER:AddSystemMessage("Intermediate: " .. string.format("%.2f",(ChestFarmer.savedVariables.intermediateCount/sampleSize)*100) .. "%")
 			CHAT_ROUTER:AddSystemMessage("Simple: " .. string.format("%.2f",(ChestFarmer.savedVariables.simpleCount/sampleSize)*100) .. "%")
-			CHAT_ROUTER:AddSystemMessage("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 		else 
 			CHAT_ROUTER:AddSystemMessage("Open more chests to populate the sample size!")
 		end
@@ -172,7 +171,7 @@ end
 
 function ChestFarmer.closeButton_showTooltip(self)
 	InitializeTooltip(InformationTooltip, self, TOPRIGHT, 0, 5, BOTTOMRIGHT)
-	SetTooltipText(InformationTooltip, "Close GUI and run in the background.\n(Use command '/chestfarmer' to toggle GUI)")
+	SetTooltipText(InformationTooltip, "Close GUI and run in the background.\n(Use command '/chestfarmer' or '/cf' to toggle GUI)")
 end
 
 function ChestFarmer.hideTooltip(self)
@@ -598,6 +597,6 @@ EVENT_MANAGER:RegisterForUpdate("ChestFarmer-InteractionLog", 800, ChestFarmer.i
 --Slash commands
 SLASH_COMMANDS["/chestfarmer"] = ChestFarmer.slashHandler
 SLASH_COMMANDS["/cf"] = ChestFarmer.slashHandler
---"/chestfarmer" toggles GUI
---"/chestfarmer total" returns total chests opened across all zones
---"/chestfarmer reset" resets chests opened count for current zone
+--"/chestfarmer" or "/cf" toggles GUI
+--"/chestfarmer ststs" or "/cf ststs" prints stats to chat
+--"/chestfarmer reset" or "/cf reset" resets chests opened count for current zone
