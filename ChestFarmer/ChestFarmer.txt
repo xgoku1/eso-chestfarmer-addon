@@ -33,6 +33,10 @@ ChestFarmer.lua
 ChestFarmer.xml
 
 ; Changelog:
+; v1.14 (27.05.2021)
+; * Changed logic to identify delves and public dungeons to rely on API rather than a table-check. (thanks Rednas)
+; * Minor optimization
+;
 ; v1.13 (19.05.2021)
 ; * Added support for tracking chest quality. Now use slash command 
 ;   "/cf stats" or press the GUI button to see total chests opened,
