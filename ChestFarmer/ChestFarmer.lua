@@ -16,6 +16,8 @@
 -- 	  elseif tempParentZoneId == (parentZoneId for the zone you got from libSets) then
 --    ChestFarmer.savedVariables.<zone_name>TC = tempTc
 --    No need to include houses here (if their parentZoneId is different) as this function is only called after a lockpick success event.
+-- 4. Add an entry to statsButtonPressed() in the line for k,v in pairs...
+-- add <zone_name>TC to the parameter list of this for loop
 
 -----------------------
 -- ChestFarmer
@@ -121,7 +123,7 @@ end
 function ChestFarmer.statsButtonPressed()
 	totalTC = 0
 	sampleSize = ChestFarmer.savedVariables.masterCount + ChestFarmer.savedVariables.advancedCount + ChestFarmer.savedVariables.intermediateCount + ChestFarmer.savedVariables.simpleCount
-		for k,v in pairs{ChestFarmer.savedVariables.starterTC, ChestFarmer.savedVariables.deshaanTC, ChestFarmer.savedVariables.eastmarchTC, ChestFarmer.savedVariables.shadowfenTC, ChestFarmer.savedVariables.stonefallsTC, ChestFarmer.savedVariables.theriftTC, ChestFarmer.savedVariables.alikrdesertTC, ChestFarmer.savedVariables.bangkoraiTC, ChestFarmer.savedVariables.glenumbraTC, ChestFarmer.savedVariables.rivenspireTC, ChestFarmer.savedVariables.stormhavenTC, ChestFarmer.savedVariables.auridonTC, ChestFarmer.savedVariables.grahtwoodTC, ChestFarmer.savedVariables.greenshadeTC, ChestFarmer.savedVariables.malabaltorTC, ChestFarmer.savedVariables.reapersmarchTC, ChestFarmer.savedVariables.summersetTC, ChestFarmer.savedVariables.wSkyrimTC, ChestFarmer.savedVariables.clockworkTC, ChestFarmer.savedVariables.coldharbourTC, ChestFarmer.savedVariables.craglornTC, ChestFarmer.savedVariables.goldcoastTC, ChestFarmer.savedVariables.hewsbaneTC, ChestFarmer.savedVariables.murkmireTC, ChestFarmer.savedVariables.nElsweyrTC, ChestFarmer.savedVariables.sElsweyrTC, ChestFarmer.savedVariables.thereachTC, ChestFarmer.savedVariables.vvardenfellTC, ChestFarmer.savedVariables.wrothgarTC, ChestFarmer.savedVariables.blackwoodTC, ChestFarmer.savedVariables.cyrodiilTC, ChestFarmer.savedVariables.impcityTC} do
+		for k,v in pairs{ChestFarmer.savedVariables.starterTC, ChestFarmer.savedVariables.deshaanTC, ChestFarmer.savedVariables.eastmarchTC, ChestFarmer.savedVariables.shadowfenTC, ChestFarmer.savedVariables.stonefallsTC, ChestFarmer.savedVariables.theriftTC, ChestFarmer.savedVariables.alikrdesertTC, ChestFarmer.savedVariables.bangkoraiTC, ChestFarmer.savedVariables.glenumbraTC, ChestFarmer.savedVariables.rivenspireTC, ChestFarmer.savedVariables.stormhavenTC, ChestFarmer.savedVariables.auridonTC, ChestFarmer.savedVariables.grahtwoodTC, ChestFarmer.savedVariables.greenshadeTC, ChestFarmer.savedVariables.malabaltorTC, ChestFarmer.savedVariables.reapersmarchTC, ChestFarmer.savedVariables.summersetTC, ChestFarmer.savedVariables.wSkyrimTC, ChestFarmer.savedVariables.clockworkTC, ChestFarmer.savedVariables.coldharbourTC, ChestFarmer.savedVariables.craglornTC, ChestFarmer.savedVariables.goldcoastTC, ChestFarmer.savedVariables.hewsbaneTC, ChestFarmer.savedVariables.murkmireTC, ChestFarmer.savedVariables.nElsweyrTC, ChestFarmer.savedVariables.sElsweyrTC, ChestFarmer.savedVariables.thereachTC, ChestFarmer.savedVariables.vvardenfellTC, ChestFarmer.savedVariables.wrothgarTC, ChestFarmer.savedVariables.blackwoodTC, ChestFarmer.savedVariables.deadlandsTC, ChestFarmer.savedVariables.cyrodiilTC, ChestFarmer.savedVariables.impcityTC} do
 			if v ~= nil then
 				totalTC = totalTC + v
 			end
