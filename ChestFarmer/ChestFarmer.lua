@@ -62,7 +62,8 @@ sElsweyrTC = 0,
 thereachTC = 0, 
 vvardenfellTC = 0, 
 wrothgarTC = 0, 
-blackwoodTC = 0, 
+blackwoodTC = 0,
+deadlandsTC = 0, 
 cyrodiilTC = 0, 
 impcityTC = 0,
 masterCount = 0,
@@ -301,6 +302,10 @@ function ChestFarmer.cfRead()
 		[684] = {684, ChestFarmer.savedVariables.wrothgarTC, {210, 212, 218}},
 	--Blackwood 
 		[1261] = {1261, ChestFarmer.savedVariables.blackwoodTC, {579, 580, 581}},
+	--Fargrave
+		[1282] = {1282, ChestFarmer.savedVariables.deadlandsTC, {613, 614, 615}},
+	--Deadlands
+		[1286] = {1286, ChestFarmer.savedVariables.deadlandsTC, {613, 614, 615}},
 	--Cyrodiil	 
 		[181] = {181, ChestFarmer.savedVariables.cyrodiilTC, {101, 39, 85, 131, 422, 419, 52, 128, 133, 113, 480, 104, 482, 127, 25, 130, 83, 238, 126, 100, 417, 59, 237, 109, 234, 108, 76, 235, 89, 67, 132, 420, 418, 421, 97, 63, 50, 481, 129, 236, 111, 239, 125}},
 	--Imperial City 
@@ -508,6 +513,12 @@ function ChestFarmer.cfWrite(tempTc)
 	--Blackwood
 	elseif tempParentZoneId == 1261 then
 		ChestFarmer.savedVariables.blackwoodTC = tempTc
+	--Fargrave
+	elseif tempParentZoneId == 1282 then
+		ChestFarmer.savedVariables.deadlandsTC = tempTc
+	--Deadlands
+	elseif tempParentZoneId == 1286 then
+		ChestFarmer.savedVariables.deadlandsTC = tempTc
 	--Cyrodiil	
 	elseif tempParentZoneId == 181 then
 		ChestFarmer.savedVariables.cyrodiilTC = tempTc
