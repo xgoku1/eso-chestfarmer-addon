@@ -2,7 +2,7 @@
 ## Description: Use command '/chestfarmer' or '/cf' to toggle GUI. Counts chests lockpicked in each zone and tracks quality. Optional GUI that also displays lockpicks remaining and overland set collection %.
 ## Author: @xgoku1
 ## Version: 1
-## APIVersion: 100034 100035
+## APIVersion: 101031 101032
 ## SavedVariables: ChestFarmerSavedData
 
 # This Add-on is not created by, affiliated with, or sponsored by, ZeniMax Media Inc.
