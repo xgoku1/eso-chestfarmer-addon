@@ -3,6 +3,7 @@
 ## Author: @xgoku1
 ## Version: 1
 ## APIVersion: 101031 101032
+## OptionalDependsOn: LibCustomMenu>=692
 ## SavedVariables: ChestFarmerSavedData
 
 # This Add-on is not created by, affiliated with, or sponsored by, ZeniMax Media Inc.

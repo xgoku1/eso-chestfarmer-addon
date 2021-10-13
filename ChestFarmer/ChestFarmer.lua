@@ -80,6 +80,7 @@ function ChestFarmer.onAddonLoaded(event, addonName)
 	if addonName == ChestFarmer.name then
 		ChestFarmer.Initialize()
 		ChestFarmer.SetScene()
+		ChestFarmer.AddMenuBind()
 		EVENT_MANAGER:UnregisterForEvent(ChestFarmer.name, EVENT_ADD_ON_LOADED)
 	end
 end
@@ -97,6 +98,67 @@ function ChestFarmer.SetScene()
 		HUD_UI_SCENE:AddFragment(fragment)
 	end
 end
+
+function ChestFarmer.IsItemMirriBox(bagId, slotIndex)
+	if bagId ~= BAG_BACKPACK then
+		return false
+	end
+	local itemId = GetItemId(bagId, slotIndex)
+	if itemId == 178470 then
+		return true
+	else
+		return false
+	end
+end
+
+function ChestFarmer.OpenABox(bag, slot)
+	EVENT_MANAGER:UnregisterForUpdate("openContainersRecursive")
+	local remaining = GetItemCooldownInfo(bag, slot)
+	local lastScene = SCENE_MANAGER:GetCurrentScene():GetName()
+	if remaining > 0 then
+		EVENT_MANAGER:RegisterForUpdate("openContainersRecursive", remaining+17, ChestFarmer.OpenContainers)
+		return
+	end
+	
+	if lastScene == "interact" then
+		LootAll()
+		lastScene = "hudui"
+	end
+			
+	if IsProtectedFunction("UseItem") then
+		CallSecureProtected("UseItem", bag, slot)
+	else
+		UseItem(bag, slot)
+	end
+			
+	LootAll()
+end
+
+function ChestFarmer.OpenContainers()
+	local inventoryCount = GetBagSize(INVENTORY_BACKPACK)
+	for x = 0, inventoryCount do
+		local link = GetItemLink(INVENTORY_BACKPACK, x)
+		local itemId = GetItemLinkItemId(link)
+		if itemId == 178470 then
+			ChestFarmer.OpenABox(INVENTORY_BACKPACK,x)
+		end
+	end
+end
+
+function ChestFarmer.AddMenuBind()
+	if not LibCustomMenu then return end
+	ZO_CreateStringId("SI_BINDING_NAME_OPEN_MIRRI_BOXES", "Open All Mirri Boxes")
+	local function AddItem(inventorySlot, slotActions)
+		local bagId, slotIndex = ZO_Inventory_GetBagAndIndex(inventorySlot)
+		if ChestFarmer.IsItemMirriBox(bagId, slotIndex) and CheckInventorySpaceSilently(4) then
+			slotActions:AddCustomSlotAction(SI_BINDING_NAME_OPEN_MIRRI_BOXES, function(...)
+				return ChestFarmer.OpenContainers(bagId, slotIndex)
+			end , "")
+		end
+	end
+	LibCustomMenu:RegisterContextMenu(AddItem, LibCustomMenu.CATEGORY_PRIMARY)
+end
+ 
 
 --UI functions
 
