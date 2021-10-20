@@ -33,6 +33,9 @@ ChestFarmer.lua
 ChestFarmer.xml
 
 ; Changelog:
+; v1.15 (20.10.2021)
+; * Compatibility patch for Deadlands DLC
+;
 ; v1.14 (27.05.2021)
 ; * Changed logic to identify delves and public dungeons to rely on API rather than a table-check. (thanks Rednas)
 ; * Minor optimization
