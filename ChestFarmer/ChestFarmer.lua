@@ -88,6 +88,7 @@ end
 function ChestFarmer.Initialize()
 	ChestFarmer.savedVariables = ZO_SavedVars:NewAccountWide("ChestFarmerSavedData", 1, nil, ChestFarmer.Default, GetWorldName())	
 	ChestFarmer.RestorePosition()
+	ZO_PreHook(SYSTEMS:GetObject("loot"), "UpdateLootWindow", ChestFarmer.hookCheck)
 end
 
 function ChestFarmer.SetScene()
@@ -96,6 +97,13 @@ function ChestFarmer.SetScene()
 	if ChestFarmer.savedVariables.guiHidden == false then
 		HUD_SCENE:AddFragment(fragment)
 		HUD_UI_SCENE:AddFragment(fragment)
+	end
+end
+
+function ChestFarmer.hookCheck()
+	local lootInfo = {GetLootTargetInfo()}
+	if	(lootInfo[1]=="Hidden Treasure Bag") and (running==true) then return true
+	else return false
 	end
 end
 
@@ -118,12 +126,13 @@ function ChestFarmer.lootContainer()
 		lastScene = "hudui"
 	end
 	LootAll()
+	running = false
 	EVENT_MANAGER:UnregisterForEvent(ChestFarmer.name, EVENT_LOOT_UPDATED)
 end
 
 function ChestFarmer.OpenABox(bag, slot)
+	running = true
 	EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_LOOT_UPDATED, ChestFarmer.lootContainer)
-	
 	EVENT_MANAGER:UnregisterForUpdate("openBoxRecursive")
 	
 	if IsProtectedFunction("UseItem") then
@@ -136,6 +145,7 @@ function ChestFarmer.OpenABox(bag, slot)
 end
 
 function ChestFarmer.OpenContainers()
+	
 	EVENT_MANAGER:UnregisterForUpdate("openContainersRecursive")
 	local inventoryCount = GetBagSize(INVENTORY_BACKPACK)
 	for x = 0, inventoryCount do
