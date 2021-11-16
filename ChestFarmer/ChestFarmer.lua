@@ -100,9 +100,16 @@ function ChestFarmer.SetScene()
 	end
 end
 
-function ChestFarmer.hookCheck()
-	local lootInfo = {GetLootTargetInfo()}
-	if	(lootInfo[1]=="Hidden Treasure Bag") and (running==true) then return true
+function ChestFarmer.hookCheck(loot, name, actionName, isOwned)
+	local itemIds = {
+		178470 -- id for Hidden Treasure Bag
+	}
+	local itemNames = {}
+	for _,itemId in ipairs(itemIds) do
+		itemNames[zo_strformat(SI_TOOLTIP_ITEM_NAME, GetItemLinkName(string.format("|H1:item:%d:0:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h", itemId)))] = true
+	end
+	
+	if (itemNames[name] == true) and (running == true) then return true
 	else return false
 	end
 end
