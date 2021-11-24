@@ -80,6 +80,7 @@ function ChestFarmer.onAddonLoaded(event, addonName)
 	if addonName == ChestFarmer.name then
 		ChestFarmer.Initialize()
 		ChestFarmer.SetScene()
+		ChestFarmer.AddMenuBind()
 		EVENT_MANAGER:UnregisterForEvent(ChestFarmer.name, EVENT_ADD_ON_LOADED)
 	end
 end
@@ -87,6 +88,7 @@ end
 function ChestFarmer.Initialize()
 	ChestFarmer.savedVariables = ZO_SavedVars:NewAccountWide("ChestFarmerSavedData", 1, nil, ChestFarmer.Default, GetWorldName())	
 	ChestFarmer.RestorePosition()
+	ZO_PreHook(SYSTEMS:GetObject("loot"), "UpdateLootWindow", ChestFarmer.hookCheck)
 end
 
 function ChestFarmer.SetScene()
@@ -97,6 +99,99 @@ function ChestFarmer.SetScene()
 		HUD_UI_SCENE:AddFragment(fragment)
 	end
 end
+
+function ChestFarmer.hookCheck(loot, name, actionName, isOwned)
+	local itemIds = {
+		178470 -- id for Hidden Treasure Bag
+	}
+	local itemNames = {}
+	for _,itemId in ipairs(itemIds) do
+		itemNames[zo_strformat(SI_TOOLTIP_ITEM_NAME, GetItemLinkName(string.format("|H1:item:%d:0:0:0:0:0:0:0:0:0:0:0:0:0:1:0:0:1:0:0:0|h|h", itemId)))] = true
+	end
+	
+	if (itemNames[name] == true) and (running == true) then return true
+	else return false
+	end
+end
+
+function ChestFarmer.IsItemMirriBox(bagId, slotIndex)
+	if bagId ~= BAG_BACKPACK then
+		return false
+	end
+	local itemId = GetItemId(bagId, slotIndex)
+	if itemId == 178470 then
+		return true
+	else
+		return false
+	end
+end
+
+function ChestFarmer.lootContainer()
+	lastScene = SCENE_MANAGER:GetCurrentScene():GetName()
+	if lastScene == "interact" then
+		LootAll()
+		lastScene = "hudui"
+	end
+	LootAll()
+	running = false
+	EVENT_MANAGER:UnregisterForEvent(ChestFarmer.name, EVENT_LOOT_UPDATED)
+end
+
+function ChestFarmer.OpenABox(bag, slot)
+	running = true
+	EVENT_MANAGER:RegisterForEvent(ChestFarmer.name, EVENT_LOOT_UPDATED, ChestFarmer.lootContainer)
+	EVENT_MANAGER:UnregisterForUpdate("openBoxRecursive")
+	
+	if IsProtectedFunction("UseItem") then
+		CallSecureProtected("UseItem", bag, slot)
+	else
+		UseItem(bag, slot)
+	end
+			
+	EVENT_MANAGER:RegisterForUpdate("openContainersRecursive", remaining+17, ChestFarmer.OpenContainers)
+end
+
+function ChestFarmer.OpenContainers()
+	
+	EVENT_MANAGER:UnregisterForUpdate("openContainersRecursive")
+	local inventoryCount = GetBagSize(INVENTORY_BACKPACK)
+	for x = 0, inventoryCount do
+		if (IsUnitInCombat("player")) or IsUnitDead("player") then
+			ZO_CreateStringId("SI_COMBAT_ERROR", "You cannot open boxes while in combat.")
+			ZO_Alert(UI_ALERT_CATEGORY_ERROR, SOUNDS.NEGATIVE_CLICK, SI_COMBAT_ERROR)
+			break
+		end
+		if (not CheckInventorySpaceSilently(4)) then
+			ZO_Alert(UI_ALERT_CATEGORY_ERROR, SOUNDS.NEGATIVE_CLICK, SI_INVENTORY_ERROR_INVENTORY_FULL)
+			break
+		end
+		local link = GetItemLink(INVENTORY_BACKPACK, x)
+		local itemId = GetItemLinkItemId(link)
+		if itemId == 178470 then
+			remaining = GetItemCooldownInfo(INVENTORY_BACKPACK,x)
+			if remaining > 0 then
+				EVENT_MANAGER:RegisterForUpdate("openBoxRecursive", remaining+17, function() ChestFarmer.OpenABox(INVENTORY_BACKPACK,x) end)
+			else
+				ChestFarmer.OpenABox(INVENTORY_BACKPACK,x)
+			end
+		end
+	end
+end
+
+function ChestFarmer.AddMenuBind()
+	if not LibCustomMenu then return end
+	ZO_CreateStringId("SI_BINDING_NAME_OPEN_MIRRI_BOXES", "Open All Mirri Boxes")
+	local function AddItem(inventorySlot, slotActions)
+		local bagId, slotIndex = ZO_Inventory_GetBagAndIndex(inventorySlot)
+		if ChestFarmer.IsItemMirriBox(bagId, slotIndex) and CheckInventorySpaceSilently(4) and (not IsUnitDead("player")) then
+			slotActions:AddCustomSlotAction(SI_BINDING_NAME_OPEN_MIRRI_BOXES, function(...)
+				return ChestFarmer.OpenContainers(bagId, slotIndex)
+			end , "")
+		end
+	end
+	LibCustomMenu:RegisterContextMenu(AddItem, LibCustomMenu.CATEGORY_PRIMARY)
+end
+ 
 
 --UI functions
 
