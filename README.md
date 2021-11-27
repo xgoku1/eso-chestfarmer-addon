@@ -10,3 +10,5 @@ Addon for Elder Scrolls Online; helps track farming overland chests for profit a
 - Lockpicks remaining count
 
 - Zone-wise set-completion tracking %
+
+- Automatically opens Mirri boxes
