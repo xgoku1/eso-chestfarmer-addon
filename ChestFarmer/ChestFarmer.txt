@@ -34,6 +34,12 @@ ChestFarmer.lua
 ChestFarmer.xml
 
 ; Changelog:
+; v1.16 (27.11.2021)
+; * Added auto-open Mirri boxes feature. Optional dependency on LibCustomMenu to work.
+; * Iterates over inventory, finds Mirri boxes and opens them. Right-click on a Mirri box to start.
+; * Edge-cases: Auto-open won't work if free inventory space <4 or if character is in combat/dead
+; * Thanks to Baertram, silvereyes, Dolgubon, and Zelenin for help with code
+;
 ; v1.15 (20.10.2021)
 ; * Compatibility patch for Deadlands DLC
 ;
